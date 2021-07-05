@@ -18,7 +18,7 @@ const nameChecks = (name, errors) => {
 const emailChecks = (email, errors) => {
 	if (validator.isEmpty(email)) {
 		errors.email = 'Email field is required';
-	} else if (!Validator.isEmail(email)) {
+	} else if (!validator.isEmail(email)) {
 		errors.email = 'Email is invalid';
 	}
 	return errors;
@@ -38,7 +38,7 @@ const passwordChecks = (password, oneOrTwo, errors) => {
 const passwordCreationChecks = (password, password2, errors) => {
 	errors = passwordChecks(password, 1, errors);
 	errors = passwordChecks(password2, 2, errors);
-	if (!Validator.isLength(password, { min: 6, max: 30 })) {
+	if (!validator.isLength(password, { min: 6, max: 30 })) {
 		errors.password = 'Password must be at least 6 characters';
 	}
 	if (!validator.equals(password, password2)) {
