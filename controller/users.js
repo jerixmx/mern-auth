@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // Load input validation
-const validateRegistrationInput = require('../../validation/register');
-const validateLoginInput = require('../../validation/login');
+const validateRegistrationInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 //Load user model
-const User = require('../../models/User');
+const User = require('../models/User');
 
 const register = (req, res) => {
 	const { error, isValid } = validateRegistrationInput(req.body);
