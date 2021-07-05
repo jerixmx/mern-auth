@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const passport = require('passport');
 // set users router
-const users = require('./routes/api/users');
+const users = require('./routes/api/user');
 
 // Middleware: request parsing
 app.use(
