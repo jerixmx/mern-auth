@@ -20,7 +20,7 @@ const verify = (jw_payload, done) => {
 };
 
 const usePassport = (passport) => {
-	passport.use(new JwtStrategy(opts, verify(jw_payload, done)));
+	passport.use(new JwtStrategy(opts, verify));
 };
 
 module.exports = usePassport;
