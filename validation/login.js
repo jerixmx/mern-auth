@@ -13,7 +13,7 @@ function validateLoginInput(data) {
 	dataArray.forEach(emptyOrExisting);
 
 	errors = emailChecks(data.email, errors);
-	errors = passwordChecks(data.password, errors);
+	errors = passwordChecks(data.password, 1, errors);
 
 	return {
 		errors,
