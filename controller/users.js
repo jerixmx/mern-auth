@@ -30,24 +30,24 @@ const register = (req, res) => {
 				email: req.body.email,
 				password: req.body.password,
 			});
-		}
 
-		// hash password before saving to db
-		// generate and pass salt to hashing function
-		bcrypt.genSalt(10, (err, salt) => {
-			// hash password using passed salt
-			bcrypt.hash(newUser.password, salt, (err, hash) => {
-				if (err) {
-					throw err;
-				}
-				newUser.password = hash;
-				newUser
-					// save to db
-					.save()
-					.then((user) => res.json(user))
-					.catch((err) => console.log(err));
+			// hash password before saving to db
+			// generate and pass salt to hashing function
+			bcrypt.genSalt(10, (err, salt) => {
+				// hash password using passed salt
+				bcrypt.hash(newUser.password, salt, (err, hash) => {
+					if (err) {
+						throw err;
+					}
+					newUser.password = hash;
+					newUser
+						// save to db
+						.save()
+						.then((user) => res.json(user))
+						.catch((err) => console.log(err));
+				});
 			});
-		});
+		}
 	});
 };
 
@@ -64,31 +64,31 @@ const login = (req, res) => {
 		if (!user) {
 			return res.status(400).json({ emailnotfound: 'Email not found' });
 		}
-	});
-	// compare input password from password of found user based on email
-	bcrypt.compare(password, user.password).then((isMatch) => {
-		if (isMatch) {
-			// create JWT payload
-			const payload = {
-				id: user.id,
-				name: user.name,
-			};
-			jwt.sign(
-				payload,
-				process.env.secretOrKey,
-				{ expiresIn: 31556926 },
-				(err, token) => {
-					res.json({
-						success: true,
-						token: 'Bearer ' + token,
-					});
-				}
-			);
-		} else {
-			return res.status(400).json({
-				passwordincorrect: 'Password incorrect',
-			});
-		}
+		// compare input password from password of found user based on email
+		bcrypt.compare(password, user.password).then((isMatch) => {
+			if (isMatch) {
+				// create JWT payload
+				const payload = {
+					id: user.id,
+					name: user.name,
+				};
+				jwt.sign(
+					payload,
+					process.env.secretOrKey,
+					{ expiresIn: 31556926 },
+					(err, token) => {
+						res.json({
+							success: true,
+							token: 'Bearer ' + token,
+						});
+					}
+				);
+			} else {
+				return res.status(400).json({
+					passwordincorrect: 'Password incorrect',
+				});
+			}
+		});
 	});
 };
 
