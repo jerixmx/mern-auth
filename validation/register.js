@@ -1,8 +1,9 @@
 const isEmpty = require('is-empty');
 const {
 	emptyOrExisting,
+	nameChecks,
 	emailChecks,
-	passwordChecks,
+	passwordCreationChecks,
 } = require('./helper-fns');
 
 function validateRegistrationInput(data) {
@@ -12,8 +13,9 @@ function validateRegistrationInput(data) {
 	dataArray = [data.name, data.email, data.password, data.password2];
 	dataArray.forEach(emptyOrExisting);
 
+	errors = nameChecks(data.name, errors);
 	errors = emailChecks(data.email, errors);
-	errors = passwordChecks(data.password, errors);
+	errors = passwordCreationChecks(data.password, data.password2, errors);
 
 	return {
 		errors,
