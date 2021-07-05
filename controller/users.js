@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Load input validation
 const validateRegistrationInput = require('../../validation/register');
@@ -49,4 +51,48 @@ const register = (req, res) => {
 	});
 };
 
-module.exports = register;
+const login = (req, res) => {
+	const { errors, isValid } = validateLoginInput(req.body);
+
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
+	const email = req.body.email;
+	const password = req.body.password;
+
+	User.findOne({ email }).then((user) => {
+		if (!user) {
+			return res.status(400).json({ emailnotfound: 'Email not found' });
+		}
+	});
+	// compare input password from password of found user based on email
+	bcrypt.compare(password, user.password).then((isMatch) => {
+		if (isMatch) {
+			// create JWT payload
+			const payload = {
+				id: user.id,
+				name: user.name,
+			};
+			jwt.sign(
+				payload,
+				process.env.secretOrKey,
+				{ expiresIn: 31556926 },
+				(err, token) => {
+					res.json({
+						success: true,
+						token: 'Bearer ' + token,
+					});
+				}
+			);
+		} else {
+			return res.status(400).json({
+				passwordincorrect: 'Password incorrect',
+			});
+		}
+	});
+};
+
+module.exports = {
+	register,
+	login,
+};
