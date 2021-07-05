@@ -10,7 +10,7 @@ const validateLoginInput = require('../validation/login');
 const User = require('../models/User');
 
 const register = (req, res) => {
-	const { error, isValid } = validateRegistrationInput(req.body);
+	const { errors, isValid } = validateRegistrationInput(req.body);
 
 	// check whether request is valid
 	if (!isValid) {
