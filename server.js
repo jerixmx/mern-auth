@@ -1,6 +1,15 @@
 const express = require('express');
-
 const app = express();
+const bodyParser = require('body-parser');
+
+// Middleware: request parsing
+app.use(
+	express.urlencoded({
+		// query string library only
+		extended: false,
+	})
+);
+app.use(express.json());
 
 // db connection
 const connectDB = require('./db/connect');
