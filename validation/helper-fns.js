@@ -1,6 +1,5 @@
 const validator = require('validator');
 const isEmpty = require('is-empty');
-const validateLoginInput = require('./login');
 
 // replace empty field with blank string for validator use
 //
