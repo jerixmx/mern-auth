@@ -1,9 +1,12 @@
 import './App.css';
+import Navbar from './layout/Navbar';
+import Landing from './layout/Landing';
 
 function App() {
 	return (
 		<div className='App'>
-			<h1>Annyeong</h1>
+			<Navbar />
+			<Landing />
 		</div>
 	);
 }
